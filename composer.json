@@ -1,0 +1,22 @@
+{
+    "name": "tback/laravel-prometheus-exporter",
+    "description": "A prometheus exporter for the Laravel web framework",
+    "keywords": ["laravel", "prometheus"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Till Backhaus",
+            "email": "till@backha.us"
+        }
+    ],
+    "require": {
+        "jimdo/prometheus_client_php": "^0.7.0",
+        "illuminate/support": "^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tback\\PrometheusExporter\\": "src/"
+        }
+    }
+}
