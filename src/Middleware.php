@@ -1,17 +1,14 @@
 <?php
 
-
 namespace Tback\PrometheusExporter;
 
 use Closure;
 use Illuminate\Http\Request;
 
-
 class Middleware
 {
     public function handle(Request $request, Closure $next)
     {
-
         $start = time();
         $response = $next($request);
         $duration = time() - $start;

@@ -9,4 +9,4 @@ Route::get('/metrics', function (Request $request) {
 
     return response($renderer->render($registry->getMetricFamilySamples()))
         ->header('Content-Type', $renderer::MIME_TYPE);
-})->name("metrics");
+})->name('metrics');
