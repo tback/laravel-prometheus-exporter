@@ -9,14 +9,15 @@ class Middleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $start = time();
+        $start = microtime(true);
         $response = $next($request);
-        $duration = time() - $start;
+        $duration = microtime(true) - $start;
 
         $registry = app('prometheus');
         $request_counter = $registry->registerCounter('http_server', 'requests_total', 'number of http requests',
             ['uri', 'request_method', 'status_code']);
-        $request_duration = $registry->registerCounter('http_server', 'requests_latency_milliseconds', 'duration of http_equests',
+        $request_duration = $registry->registerCounter('http_server', 'requests_latency_milliseconds',
+            'duration of http_equests',
             ['uri', 'request_method', 'status_code']);
 
         $route = $request->route();
