@@ -14,17 +14,20 @@ class Middleware
         $duration = microtime(true) - $start;
 
         $registry = app('prometheus');
-        $request_counter = $registry->registerCounter('http_server', 'requests_total', 'number of http requests',
-            ['uri', 'request_method', 'status_code']);
-        $request_duration = $registry->registerCounter('http_server', 'requests_latency_milliseconds',
+        $name = config('prometheus_exporter.name');
+
+        $label_keys = ['uri', 'request_method', 'status_code'];
+        $request_counter = $registry->registerCounter(
+            $name, 'requests_total', 'number of http requests', $label_keys);
+        $request_duration = $registry->registerCounter($name, 'requests_latency_milliseconds',
             'duration of http_equests',
-            ['uri', 'request_method', 'status_code']);
+            $label_keys);
 
         $route = $request->route();
 
-        $labels = [$route ? $route->uri() : '-', $request->method(), $response->status()];
-        $request_counter->inc($labels);
-        $request_duration->incBy($duration * 1000.0, $labels);
+        $label_values = [$route ? $route->uri() : '-', $request->method(), $response->status()];
+        $request_counter->inc($label_values);
+        $request_duration->incBy($duration * 1000.0, $label_values);
 
         return $response;
     }
