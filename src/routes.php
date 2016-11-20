@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 
-Route::get('/metrics', function (Request $request) {
+Route::get(config('prometheus_exporter.metrics_path'), function (Request $request) {
     $renderer = new \Prometheus\RenderTextFormat();
 
     $registry = app('prometheus');

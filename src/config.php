@@ -8,6 +8,8 @@ return [
 
     'name' => 'http_server',
 
+    'metrics_path' => '/metrics',
+
     'redis' => [
         'host'                   => '127.0.0.1',
         'port'                   => 6379,
