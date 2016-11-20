@@ -18,5 +18,8 @@
         "psr-4": {
             "Tback\\PrometheusExporter\\": "src/"
         }
+    },
+    "require-dev": {
+        "illuminate/http": "^5.3"
     }
 }
