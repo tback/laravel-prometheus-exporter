@@ -1,11 +1,9 @@
 # laravel-prometheus-exporter
 
-A prometheus exporter for the Laravel web framework.
+A prometheus exporter for the Laravel and Lumen web framework.
 
 It tracks latency and request counts by 
 request method, route and response code.
-
-By default the app will then exporter prometheus metrics on `/metrics`.
 
 ## Installation
 `composer require tback/laravel-prometheus-exporter`
@@ -23,12 +21,13 @@ Ensure php redis is installed and enabled.
 By default it looks for a redis server at localhost:6379. The server
 can be configured in `config/prometheus_exporter.php`.
 
+## Laravel
 ### Register the ServiceProvider
 In `config/app.php`
 ```
 'providers' => [
     ...
-    Tback\PrometheusExporter\ServiceProvider::class,
+    Tback\PrometheusExporter\LpeServiceProvider::class,
 ];
 ```
 
@@ -37,8 +36,33 @@ In `app/Http/Kernel.php`
 ```
 protected $middleware = [
     ...
-    \Tback\PrometheusExporter\Middleware::class,
+    \Tback\PrometheusExporter\LpeResponseTimeMiddleware::class,
 ];
+```
+
+### Add an endpoint for the metrics
+```
+Route::get('metric', \Tback\PrometheusExporter\LpeController::class . '@metric');
+```
+
+## Lumen
+### Register the ServiceProvider
+In `bootstrap/app.php`
+```
+$app->register(\Tback\PrometheusExporter\LpeServiceProvider::class);
+```
+
+### Enable the Middleware
+In `bootstrap/app.php`
+```
+$app->middleware([
+    \Tback\PrometheusExporter\LpeResponseTimeMiddleware::class
+]);
+```
+
+### Add an endpoint for the metrics
+```
+Route::get('metric', \Tback\PrometheusExporter\LpeController::class . '@metric');
 ```
 
 ## Configuration
@@ -47,6 +71,14 @@ The configuration can be found in `config/prometheus_exporter.php`.
 | name        | description                                             |
 |-------------|---------------------------------------------------------|
 | adapter     | Storage adapter to use: 'apc' or 'redis' default: 'apc' |
-| metrics_path| Where to reach metrics. default: '/metrics'             |
-| name        | name (prefix) to use in prometheus metrics. default: 'http_server' |
+| namespace   | name (prefix) to use in prometheus metrics. default: 'default' |
 | redis       | array of redis parameters. see prometheus_exporter.php for details |
+
+## Usage
+```
+$manager = app('LpeManager');
+
+$manager->incCounter('NAME', 'HELP', 'NAMESPACE', 'LABELS', 'DATA');
+
+$manager->incByCounter('NAME', 'HELP', 'VALUE', 'NAMESPACE', 'LABELS', 'DATA');
+```
