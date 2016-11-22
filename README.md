@@ -1,6 +1,6 @@
 # laravel-prometheus-exporter
 
-A prometheus exporter for the Laravel and Lumen web framework.
+A prometheus exporter for the Laravel and the Lumen web framework.
 
 It tracks latency and request counts by 
 request method, route and response code.
