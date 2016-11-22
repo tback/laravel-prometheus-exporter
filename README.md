@@ -21,8 +21,8 @@ Ensure php redis is installed and enabled.
 By default it looks for a redis server at localhost:6379. The server
 can be configured in `config/prometheus_exporter.php`.
 
-## Laravel
-### Register the ServiceProvider
+### Laravel
+#### Register the ServiceProvider
 In `config/app.php`
 ```
 'providers' => [
@@ -31,7 +31,7 @@ In `config/app.php`
 ];
 ```
 
-### Enable the Middleware 
+#### Enable the Middleware 
 In `app/Http/Kernel.php`
 ```
 protected $middleware = [
@@ -40,19 +40,19 @@ protected $middleware = [
 ];
 ```
 
-### Add an endpoint for the metrics
+#### Add an endpoint for the metrics
 ```
 Route::get('metric', \Tback\PrometheusExporter\LpeController::class . '@metric');
 ```
 
-## Lumen
-### Register the ServiceProvider
+### Lumen
+#### Register the ServiceProvider
 In `bootstrap/app.php`
 ```
 $app->register(\Tback\PrometheusExporter\LpeServiceProvider::class);
 ```
 
-### Enable the Middleware
+#### Enable the Middleware
 In `bootstrap/app.php`
 ```
 $app->middleware([
@@ -60,7 +60,7 @@ $app->middleware([
 ]);
 ```
 
-### Add an endpoint for the metrics
+#### Add an endpoint for the metrics
 ```
 Route::get('metric', \Tback\PrometheusExporter\LpeController::class . '@metric');
 ```
