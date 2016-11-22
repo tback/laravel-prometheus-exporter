@@ -13,6 +13,24 @@ use Illuminate\Support\ServiceProvider;
 class LpeServiceProvider extends ServiceProvider
 {
     /**
+     * Bootstrap the application events.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $source = realpath(__DIR__ . '/config/config.php');
+
+        if (class_exists('Illuminate\Foundation\Application', false)) {
+            $this->publishes([$source => config_path('prometheus_exporter.php')]);
+            $this->mergeConfigFrom($source, 'prometheus_exporter');
+        } elseif (class_exists('Laravel\Lumen\Application', false)) {
+            $this->app->configure('prometheus_exporter');
+            $this->mergeConfigFrom($source, 'prometheus_exporter');
+        }
+    }
+
+    /**
      * Register the service provider.
      */
     public function register()
