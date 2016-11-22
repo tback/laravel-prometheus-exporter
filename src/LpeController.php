@@ -18,7 +18,7 @@ class LpeController extends Controller
      *
      * @return Response
      */
-    public function metric()
+    public function metrics()
     {
         $registry = app('prometheus');
 
