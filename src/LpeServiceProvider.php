@@ -1,31 +1,31 @@
 <?php
-
 namespace Tback\PrometheusExporter;
 
 use Prometheus\CollectorRegistry;
 use Prometheus\Storage\APC;
 use Prometheus\Storage\Redis;
+use Illuminate\Support\ServiceProvider;
 
-class ServiceProvider extends \Illuminate\Support\ServiceProvider
+/**
+ * Class LpeServiceProvider
+ * @package Tback\PrometheusExporter
+ */
+class LpeServiceProvider extends ServiceProvider
 {
-    public function boot()
-    {
-        $this->publishes([
-            __DIR__.'/config.php' => config_path('prometheus_exporter.php'),
-        ]);
-
-        if (!$this->app->routesAreCached()) {
-            require __DIR__.'/routes.php';
-        }
-    }
-
+    /**
+     * Register the service provider.
+     */
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/config.php', 'prometheus_exporter'
+            __DIR__.'/config/config.php',
+            'prometheus_exporter'
         );
 
-        $this->app->singleton('prometheus', function ($app) {
+        /**
+         * LpeManager
+         */
+        $this->app->singleton('LpeManager', function () {
             switch (config('prometheus_exporter.adapter')) {
                 case 'apc':
                     $adapter = new APC();
@@ -39,7 +39,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
 
             $registry = new CollectorRegistry($adapter);
 
-            return $registry;
+            return new LpeManager($registry);
         });
     }
 }

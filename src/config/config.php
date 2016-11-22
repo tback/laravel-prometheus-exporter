@@ -6,9 +6,9 @@ return [
      */
     'adapter' => env('PROMETHEUS_ADAPTER', 'apc'),
 
-    'name' => 'http_server',
+    'namespace' => 'app',
 
-    'metrics_path' => '/metrics',
+    'namespace_http_server' => 'http_server',
 
     'redis' => [
         'host'                   => '127.0.0.1',
