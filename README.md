@@ -61,8 +61,11 @@ $app->middleware([
 ```
 
 #### Add an endpoint for the metrics
+In `bootstrap/app.php`
 ```
-Route::get('metric', \Tback\PrometheusExporter\LpeController::class . '@metrics');
+$app->group(['namespace'=> '\Tback\PrometheusExporter'], function() use ($app){
+    $app->get('metrics', ['as' => 'metrics', 'uses'=> 'LpeController@metrics']);
+});
 ```
 
 ## Configuration
