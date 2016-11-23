@@ -5,6 +5,9 @@ A prometheus exporter for the Laravel and the Lumen web framework.
 It tracks latency and request counts by 
 request method, route and response code.
 
+## Project State
+This is unreleased software. I commit backwards incompatible changes without notice. Heck, I don't even have CI setup yet.
+
 ## Installation
 `composer require tback/laravel-prometheus-exporter`
 
