@@ -14,6 +14,6 @@ class LaravelResponseTimeMiddleware extends AbstractResponseTimeMiddleware
      */
     protected function getRouteName()
     {
-        return $this->request->route()->uri();
+        return \Route::currentRouteName() ?: 'unnamed';
     }
 }

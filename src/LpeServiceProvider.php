@@ -24,6 +24,10 @@ class LpeServiceProvider extends ServiceProvider
         if (class_exists('Illuminate\Foundation\Application', false)) {
             $this->publishes([$source => config_path('prometheus_exporter.php')]);
             $this->mergeConfigFrom($source, 'prometheus_exporter');
+
+            if(! $this->app->routesAreCached()){
+                $this->registerMetricsRoute();
+            }
         } elseif (class_exists('Laravel\Lumen\Application', false)) {
             $this->app->configure('prometheus_exporter');
             $this->mergeConfigFrom($source, 'prometheus_exporter');
@@ -59,5 +63,10 @@ class LpeServiceProvider extends ServiceProvider
 
             return new LpeManager($registry);
         });
+    }
+
+    public function registerMetricsRoute()
+    {
+        $this->loadRoutesFrom(__DIR__ . '/laravel_routes.php');
     }
 }
