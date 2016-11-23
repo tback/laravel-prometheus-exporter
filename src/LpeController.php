@@ -2,7 +2,7 @@
 namespace Tback\PrometheusExporter;
 
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 use Prometheus\RenderTextFormat;
 
 /**

@@ -14,6 +14,7 @@ class LumenResponseTimeMiddleware extends AbstractResponseTimeMiddleware
      */
     protected function getRouteName()
     {
-        return $this->request->route()[1]['uri'];
+        $route_info = $this->request->route()[1];
+        return array_key_exists('as', $route_info) ? $route_info['as']: 'unnamed';
     }
 }

@@ -32,7 +32,7 @@ abstract class AbstractResponseTimeMiddleware
         $response = $next($request);
         $duration = microtime(true) - $start;
 
-        $label_keys = ['uri', 'request_method', 'status_code'];
+        $label_keys = ['route', 'request_method', 'status_code'];
         $route_name = $this->getRouteName();
 
         $label_values = [
