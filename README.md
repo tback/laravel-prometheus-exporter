@@ -45,7 +45,7 @@ protected $middleware = [
 
 #### Add an endpoint for the metrics
 ```
-Route::get('metric', \Tback\PrometheusExporter\LpeController::class . '@metrics');
+Route::get('metrics', \Tback\PrometheusExporter\LpeController::class . '@metrics');
 ```
 
 ### Lumen
