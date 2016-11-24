@@ -1,9 +1,6 @@
 <?php
 namespace Tback\PrometheusExporter;
 
-use Prometheus\CollectorRegistry;
-use Prometheus\Storage\APC;
-use Prometheus\Storage\Redis;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -44,25 +41,19 @@ class LpeServiceProvider extends ServiceProvider
             'prometheus_exporter'
         );
 
-        /**
-         * LpeManager
-         */
-        $this->app->singleton('LpeManager', function () {
-            switch (config('prometheus_exporter.adapter')) {
-                case 'apc':
-                    $adapter = new APC();
-                    break;
-                case 'redis':
-                    $adapter = new Redis(config('prometheus_exporter.redis'));
-                    break;
-                default:
-                    throw new \ErrorException('"prometheus_exporter.adapter" must be either apc or redis');
-            }
 
-            $registry = new CollectorRegistry($adapter);
-
-            return new LpeManager($registry);
-        });
+        switch (config('prometheus_exporter.adapter')) {
+            case 'apc':
+                $this->app->bind('Prometheus\Storage\Adapter', 'Prometheus\Storage\APC');
+                break;
+            case 'redis':
+                $this->app->bind('Prometheus\Storage\Adapter', function($app){
+                    return new \Prometheus\Storage\Redis(config('prometheus_exporter.redis'));
+                });
+                break;
+            default:
+                throw new \ErrorException('"prometheus_exporter.adapter" must be either apc or redis');
+        }
     }
 
     public function registerMetricsRoute()

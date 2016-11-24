@@ -12,6 +12,20 @@ use Prometheus\RenderTextFormat;
 class LpeController extends Controller
 {
     /**
+     * @var LpeManager
+     */
+    protected $lpeManager;
+    /**
+     * LpeController constructor.
+     *
+     * @param LpeManager $lpeManager
+     */
+    public function __construct(LpeManager $lpeManager)
+    {
+        $this->lpeManager = $lpeManager;
+    }
+
+    /**
      * metric
      *
      * Expose metrics for prometheus
@@ -20,11 +34,9 @@ class LpeController extends Controller
      */
     public function metrics()
     {
-        $manager = app('LpeManager');
-
         $renderer = new RenderTextFormat();
 
-        return response($renderer->render($manager->getMetricFamilySamples()))
+        return response($renderer->render($this->lpeManager->getMetricFamilySamples()))
             ->header('Content-Type', $renderer::MIME_TYPE);
     }
 }
