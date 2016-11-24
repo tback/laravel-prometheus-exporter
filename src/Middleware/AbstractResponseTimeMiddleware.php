@@ -17,6 +17,21 @@ abstract class AbstractResponseTimeMiddleware
     protected $request;
 
     /**
+     * @var LpeManager
+     */
+    protected $lpeManager;
+
+    /**
+     * AbstractResponseTimeMiddleware constructor.
+     *
+     * @param LpeManager $lpeManager
+     */
+    public function __construct(LpeManager $lpeManager)
+    {
+        $this->lpeManager = $lpeManager;
+    }
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,7 +57,7 @@ abstract class AbstractResponseTimeMiddleware
         ];
 
         /** @var LpeManager $manager */
-        $manager = app('LpeManager');
+        $manager = $this->lpeManager;
 
         // requests total
         $manager->incCounter(

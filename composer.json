@@ -10,17 +10,18 @@
             "email": "till@backha.us"
         }
     ],
-    "require": {
-        "jimdo/prometheus_client_php": "^0.7.0",
-        "illuminate/support": "^5.3"
-    },
     "autoload": {
         "psr-4": {
             "Tback\\PrometheusExporter\\": "src/"
         }
     },
+    "require": {
+        "jimdo/prometheus_client_php": "^0.7.0",
+        "illuminate/support": "^5.3"
+    },
     "require-dev": {
         "illuminate/http": "^5.3",
-        "phpunit/phpunit": "^5.6"
+        "phpunit/phpunit": "^5.6",
+        "orchestra/testbench": "~3.0"
     }
 }
