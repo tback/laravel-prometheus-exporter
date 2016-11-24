@@ -2,4 +2,4 @@ language: php
 php:
   - '7.0'
 install:
-  composer update
+  composer install --no-interaction
