@@ -3,6 +3,8 @@ namespace Tback\PrometheusExporter;
 
 use Illuminate\Foundation\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Application as LaravelApplication;
+use Laravel\Lumen\Application as LumenApplication;
 use Tback\PrometheusExporter\Middleware\LaravelResponseTimeMiddleware;
 
 /**
@@ -20,7 +22,7 @@ class LpeServiceProvider extends ServiceProvider
     {
         $source = realpath(__DIR__ . '/config/config.php');
 
-        if (class_exists('Illuminate\Foundation\Application', false)) {
+        if ($this->app instanceof LaravelApplication) {
             $this->publishes([$source => config_path('prometheus_exporter.php')]);
             $this->mergeConfigFrom($source, 'prometheus_exporter');
 
