@@ -1,7 +1,9 @@
 <?php
 namespace Tback\PrometheusExporter;
 
+use Illuminate\Foundation\Http\Kernel;
 use Illuminate\Support\ServiceProvider;
+use Tback\PrometheusExporter\Middleware\LaravelResponseTimeMiddleware;
 
 /**
  * Class LpeServiceProvider
@@ -14,7 +16,7 @@ class LpeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Kernel $kernel)
     {
         $source = realpath(__DIR__ . '/config/config.php');
 
@@ -22,6 +24,7 @@ class LpeServiceProvider extends ServiceProvider
             $this->publishes([$source => config_path('prometheus_exporter.php')]);
             $this->mergeConfigFrom($source, 'prometheus_exporter');
 
+            $kernel->pushMiddleware(LaravelResponseTimeMiddleware::class);
             if(! $this->app->routesAreCached()){
                 $this->registerMetricsRoute();
             }
