@@ -23,5 +23,12 @@
         "illuminate/http": "^5.5",
         "phpunit/phpunit": "^6.0",
         "orchestra/testbench": "~3.0"
-    }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tback\\PrometheusExporter\\LpeServiceProvider"
+            ]
+        }
+    },
 }
