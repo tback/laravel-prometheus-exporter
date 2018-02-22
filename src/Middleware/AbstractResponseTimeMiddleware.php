@@ -46,37 +46,13 @@ abstract class AbstractResponseTimeMiddleware
         /** @var \Illuminate\Http\Response $response */
         $response = $next($request);
         $duration = microtime(true) - $start;
+        $duration_milliseconds = $duration * 1000.0;
 
-        $label_keys = ['route', 'request_method', 'status_code'];
         $route_name = $this->getRouteName();
+        $method = $request->getMethod();
+        $status = $response->getStatusCode();
 
-        $label_values = [
-            $route_name,
-            $request->method(),
-            $response->status()
-        ];
-
-        /** @var LpeManager $manager */
-        $manager = $this->lpeManager;
-
-        // requests total
-        $manager->incCounter(
-            'requests_total',
-            'number of http requests',
-            config('prometheus_exporter.namespace_http_server'),
-            $label_keys,
-            $label_values
-        );
-
-        // request duration
-        $manager->incByCounter(
-            'requests_latency_milliseconds',
-            'duration of http_requests',
-            $duration * 1000.0,
-            config('prometheus_exporter.namespace_http_server'),
-            $label_keys,
-            $label_values
-        );
+        $this->lpeManager->countRequest($route_name, $method, $status, $duration_milliseconds);
 
         return $response;
     }
