@@ -15,18 +15,12 @@
             "Tback\\PrometheusExporter\\": "src/"
         }
     },
-    "repositories": [
-      {
-        "type" : "vcs",
-        "url": "https://github.com/traum-ferienwohnungen/prometheus_client_php"
-      }
-    ],
     "require": {
-        "jimdo/prometheus_client_php": "dev-store-initialized",
-        "illuminate/support": "^5.6"
+        "jimdo/prometheus_client_php": "0.9.1",
+        "illuminate/support": "^5.4"
     },
     "require-dev": {
-        "illuminate/http": "^5.6",
+        "illuminate/http": "^5.4",
         "phpunit/phpunit": "^6.0",
         "orchestra/testbench": "~3.0"
     },
